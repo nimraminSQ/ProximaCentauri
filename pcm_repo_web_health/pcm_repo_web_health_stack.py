@@ -18,10 +18,14 @@ class PcmRepoWebHealthStack(cdk.Stack):
     def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
         
-        HW_lambda = self.create_lambda("Hello World!", "./resources/", "HelloWorld_lambda.lambda_handler")
-        # WH_lambda = self.create_lambda("Hello World!", "./resources/", "webHealth_lambda.lambda_handler")
+        # Creating a Lambda function, which calls the Hello World Handler
+        # HW_lambda = self.create_lambda("Hello World!", "./resources/", "HelloWorld_lambda.lambda_handler")
+        
+        # Creating a Lambda function, which creates and calls the WebHealth Lambda Function
+        WH_lambda = self.create_lambda("Hello World!", "./resources/", "webHealth_lambda.lambda_handler")
          
     def create_lambda(self, id, asset, handler):
+        ### Creates a lambda function in python3.6
         return _lambda.Function(self, 
         id,
         handler=handler,  # optional, defaults to 'handler'
