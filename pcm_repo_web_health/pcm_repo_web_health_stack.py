@@ -28,9 +28,9 @@ class PcmRepoWebHealthStack(cdk.Stack):
         # HW_lambda = self.create_lambda("Hello World!", "./resources/", "HelloWorld_lambda.lambda_handler")
         lambda_role = self.create_lambda_role()
         # Creating a Lambda function, which creates and calls the WebHealth Lambda Function
-        WH_lambda = self.create_lambda("Hello World!", "./resources/", "webHealth_lambda.lambda_handler", lambda_role)
+        WH_lambda = self.create_lambda("WebHealthPeriodicLambda", "./resources/", "webHealth_lambda.lambda_handler", lambda_role)
         
-        lambda_schedule = _events.Schedule.rate(cdk.Duration.minutes(1))
+        lambda_schedule = _events.Schedule.rate(cdk.Duration.minutes(5))
         lambda_targets = _events_targets.LambdaFunction(handler=WH_lambda)
         rule = _events.Rule(self, "webHealth_Invocation", description="Periodic Lambda", enabled=True, schedule=lambda_schedule, targets=[lambda_targets])
         
@@ -47,8 +47,8 @@ class PcmRepoWebHealthStack(cdk.Stack):
         availability_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
                         metric_name=constants.URL_MONITOR_NAME_AVAILABILITY,
                         dimensions_map = dimensions,
-                        period = cdk.Duration.minutes(1),
-                        label = 'LATENCY METRIC')
+                        period = cdk.Duration.minutes(5),
+                        label = 'AVAILABILITY ALARM METRIC')
         availability_alarm = _cloudwatch.Alarm(self, 
                                             id ='NimraAvailabilityAlarm',
                                             metric = availability_metric,
@@ -65,8 +65,8 @@ class PcmRepoWebHealthStack(cdk.Stack):
         latency_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
                         metric_name=constants.URL_MONITOR_NAME_LATENCY,
                         dimensions_map = dimensions,
-                        period = cdk.Duration.minutes(1),
-                        label = 'LATENCY METRIC')
+                        period = cdk.Duration.minutes(5),
+                        label = 'LATENCY ALARM METRIC')
         latency_alarm = _cloudwatch.Alarm(self, 
                                             id ='NimraLatencyAlarm',
                                             metric = latency_metric,
