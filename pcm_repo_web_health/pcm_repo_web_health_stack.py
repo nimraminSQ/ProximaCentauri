@@ -4,9 +4,11 @@ from aws_cdk import (
     aws_lambda as _lambda,
     aws_events as _events,
     aws_events_targets as _events_targets,
-    aws_iam as aws_iam
+    aws_iam as aws_iam,
+    aws_cloudwatch as _cloudwatch
 )
 
+from resources import constants as constants
 # For consistency with other languages, `cdk` is the preferred import name for
 # the CDK's core module.  The following line also imports it as `core` for use
 # with examples from the CDK Developer's Guide, which are in the process of
@@ -28,6 +30,40 @@ class PcmRepoWebHealthStack(cdk.Stack):
         lambda_schedule = _events.Schedule.rate(cdk.Duration.minutes(1))
         lambda_targets = _events_targets.LambdaFunction(handler=WH_lambda)
         rule = _events.Rule(self, "webHealth_Invocation", description="Periodic Lambda", enabled=True, schedule=lambda_schedule, targets=[lambda_targets])
+        
+        
+        
+        dimensions = {'URL': constants.URL_TO_MONITOR}
+        availability_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
+                        metric_name=constants.URL_MONITOR_NAME_AVAILABILITY,
+                        dimensions_map = dimensions,
+                        period = cdk.Duration.minutes(1),
+                        label = 'LATENCY METRIC')
+        availability_alarm = _cloudwatch.Alarm(self, 
+                                            id ='NimraAvailabilityAlarm',
+                                            metric = availability_metric,
+                                            comparison_operator =_cloudwatch.ComparisonOperator.LESS_THAN_THRESHOLD,
+                                            datapoints_to_alarm = 1,
+                                            evaluation_periods = 1,
+                                            threshold = 1, 
+                                            )
+    
+    
+    
+        dimensions = {'URL': constants.URL_TO_MONITOR}
+        latency_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
+                        metric_name=constants.URL_MONITOR_NAME_LATENCY,
+                        dimensions_map = dimensions,
+                        period = cdk.Duration.minutes(1),
+                        label = 'LATENCY METRIC')
+        latency_alarm = _cloudwatch.Alarm(self, 
+                                            id ='NimraLatencyAlarm',
+                                            metric = latency_metric,
+                                            comparison_operator =_cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
+                                            datapoints_to_alarm = 1,
+                                            evaluation_periods = 1,
+                                            threshold = .28 #.34
+                                            )
     
     
     def create_lambda_role(self):
