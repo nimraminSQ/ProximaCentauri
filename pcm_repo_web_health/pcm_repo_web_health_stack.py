@@ -5,7 +5,10 @@ from aws_cdk import (
     aws_events as _events,
     aws_events_targets as _events_targets,
     aws_iam as aws_iam,
-    aws_cloudwatch as _cloudwatch
+    aws_cloudwatch as _cloudwatch,
+    aws_sns as sns,
+    aws_sns_subscriptions as subscriptions,
+    aws_cloudwatch_actions as cw_actions
 )
 
 from resources import constants as constants
@@ -31,8 +34,15 @@ class PcmRepoWebHealthStack(cdk.Stack):
         lambda_targets = _events_targets.LambdaFunction(handler=WH_lambda)
         rule = _events.Rule(self, "webHealth_Invocation", description="Periodic Lambda", enabled=True, schedule=lambda_schedule, targets=[lambda_targets])
         
+        #SNS TOPIC 
+        topic = sns.Topic(self, "webHealthTopic")
+        topic.add_subscription(subscriptions.EmailSubscription(
+                                                email_address = "nimra.amin.s@skipq.org"
+                                                )
+                                )
+            
         
-        
+        #Setting up Alarm by defining the availability metric and its dimensionsfirst    
         dimensions = {'URL': constants.URL_TO_MONITOR}
         availability_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
                         metric_name=constants.URL_MONITOR_NAME_AVAILABILITY,
@@ -50,6 +60,7 @@ class PcmRepoWebHealthStack(cdk.Stack):
     
     
     
+        #Setting up Alarm by defining the latency metric and its dimensionsfirst
         dimensions = {'URL': constants.URL_TO_MONITOR}
         latency_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
                         metric_name=constants.URL_MONITOR_NAME_LATENCY,
@@ -64,6 +75,11 @@ class PcmRepoWebHealthStack(cdk.Stack):
                                             evaluation_periods = 1,
                                             threshold = .28 #.34
                                             )
+        
+        availability_alarm.add_alarm_action(cw_actions.SnsAction(topic))
+        latency_alarm.add_alarm_action(cw_actions.SnsAction(topic))
+
+        
     
     
     def create_lambda_role(self):
