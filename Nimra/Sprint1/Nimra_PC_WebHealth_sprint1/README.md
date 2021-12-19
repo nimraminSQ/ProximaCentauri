@@ -1,7 +1,28 @@
 
-# Welcome to your CDK Python project!
+# Sprint1: A Web Health Monitoring System
 
-This is a blank project for Python development with CDK.
+## Project Summary:
+For Sprint 1 at SkipQ, we have designed a web health monitoring system, that periodically monitors the web health metrics (i.e. latency and availability) and then raises an alarm If any of the metric breaches a specified threshold. The rasied alarms are to be stored in a dynamodb table.
+
+Services  
+------------- |
+AWS Dynamodb
+AWS Cloudwatch
+S3 buckets
+AWS lambda
+AWS SNS
+AWS events
+AWS events target
+
+## Installation Guide
+1. Clone the repository.
+2. cd into the cloned repository.
+3. Install requirements with the command pip install -r requirements.txt
+4. Type in cdk synth && cdk deploy for deployment.
+
+## Author
+Name: NImra Amin
+Email: nimra.amin.s@skipq.org
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
