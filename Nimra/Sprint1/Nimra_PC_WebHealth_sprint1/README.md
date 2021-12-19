@@ -20,10 +20,6 @@ AWS events target
 3. Install requirements with the command pip install -r requirements.txt
 4. Type in cdk synth && cdk deploy for deployment.
 
-## Author
-Name: NImra Amin
-Email: nimra.amin.s@skipq.org
-
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 This project is set up like a standard Python project.  The initialization
@@ -75,5 +71,10 @@ command.
  * `cdk deploy`      deploy this stack to your default AWS account/region
  * `cdk diff`        compare deployed stack with current state
  * `cdk docs`        open CDK documentation
+
+## Author: 
+for any queries reach out at:
+Name: Nimra Amin
+Email: nimra.amin.s@skipq.org
 
 Enjoy!
