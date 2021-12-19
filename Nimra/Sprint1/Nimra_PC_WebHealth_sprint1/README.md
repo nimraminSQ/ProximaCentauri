@@ -3,15 +3,24 @@
 ## Project Summary:
 For Sprint 1 at SkipQ, we have designed a web health monitoring system, that periodically monitors the web health metrics (i.e. latency and availability) and then raises an alarm If any of the metric breaches a specified threshold. The rasied alarms are to be stored in a dynamodb table.
 
-Services  
+## GOALS
+1. Create a periodic Lambda Function, that checks latency and availability of a specified url at some predefined periodic time.
+2. Connect that periodic lambda function with cloud watch, by publishing the latency and availability metric to CloudWatch.
+3. Generate an alarm, if the CloudWatch’s metric breaches a certain threshold.
+4. Create an SNS Topic that notifies(emails) its subscribers of the breached threshold by sending them an alarm message.
+5. Create A table in DynamoDB for keeping a record of the alarm messages.
+6. Create another SNS subscription that triggers a lambda function to write into DynamoDB whenever an alarm is triggered.
+7. Now, run this application for 4 URLS, by retrieving them from an S3 Bucket.
+
+##Services Used 
 ------------- |
-AWS Dynamodb
-AWS Cloudwatch
-S3 buckets
-AWS lambda
-AWS SNS
-AWS events
-AWS events target
+AWS Dynamodb |
+AWS Cloudwatch |
+S3 buckets |
+AWS lambda |
+AWS SNS |
+AWS events |
+AWS events target |
 
 ## Installation Guide
 1. Clone the repository.
