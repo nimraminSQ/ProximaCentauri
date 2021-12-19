@@ -1,6 +1,7 @@
 
 # Sprint1: Web Health Monitoring 
 ## Project Summary:
+![Alt text](./architecture.png "Title")
 For Sprint 1 at SkipQ, we have designed a web health monitoring system, that periodically monitors the web health metrics (i.e. latency and availability) and then raises an alarm If any of the metric breaches a specified threshold. The rasied alarms are to be stored in a dynamodb table.
 
 ## GOALS
