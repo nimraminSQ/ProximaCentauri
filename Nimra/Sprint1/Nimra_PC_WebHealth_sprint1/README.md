@@ -12,7 +12,7 @@ For Sprint 1 at SkipQ, we have designed a web health monitoring system, that per
 6. Create another SNS subscription that triggers a lambda function to write into DynamoDB whenever an alarm is triggered.
 7. Now, run this application for 4 URLS, by retrieving them from an S3 Bucket.
 
-##Services Used 
+Services Used 
 ------------- |
 AWS Dynamodb |
 AWS Cloudwatch |
