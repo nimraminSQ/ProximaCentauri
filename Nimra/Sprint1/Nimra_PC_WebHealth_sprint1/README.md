@@ -27,8 +27,7 @@ AWS events target | :heavy_check_mark: Completed
 ## Installation Guide
 1. Clone the repository.
 2. cd into the cloned repository.
-3. Install requirements with the command pip install -r requirements.txt
-4. Type in cdk synth && cdk deploy for deployment.
+3. Install requirements with the command pip install -r requirements.txt or follow the instructions below: 
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
