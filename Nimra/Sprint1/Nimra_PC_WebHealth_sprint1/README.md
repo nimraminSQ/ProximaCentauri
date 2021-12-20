@@ -24,6 +24,7 @@ AWS lambda | :heavy_check_mark: Completed
 AWS SNS | :heavy_check_mark: Completed
 AWS events | :heavy_check_mark: Completed
 AWS events target | :heavy_check_mark: Completed
+Boto3 | :heavy_check_mark: Completed
 <br/>
 <br/>
 ## Installation Guide
