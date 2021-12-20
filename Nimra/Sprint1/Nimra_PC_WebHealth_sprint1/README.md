@@ -14,7 +14,7 @@
 6. Create another SNS subscription that triggers a lambda function to write into DynamoDB whenever an alarm is triggered.
 7. Now, run this application for 4 URLS, by retrieving them from an S3 Bucket.
 
-## SERCIVES:
+## SERVICES:
 Services Used | Status
 ------------- | ------------- 
 AWS Dynamodb |  :heavy_check_mark: Completed
@@ -24,14 +24,15 @@ AWS lambda | :heavy_check_mark: Completed
 AWS SNS | :heavy_check_mark: Completed
 AWS events | :heavy_check_mark: Completed
 AWS events target | :heavy_check_mark: Completed
-
+<br/>
+<br/>
 ## Installation Guide
 1. Clone the repository.
 2. cd into the cloned repository.
 3. Install requirements with the command pip install -r requirements.txt or follow the instructions below: 
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
-
+<br/>
 This project is set up like a standard Python project.  The initialization
 process also creates a virtualenv within this project, stored under the `.venv`
 directory.  To create the virtualenv it assumes that there is a `python3`
