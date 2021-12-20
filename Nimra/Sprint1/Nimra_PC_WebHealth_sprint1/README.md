@@ -93,8 +93,8 @@ command.
  * `cdk docs`        open CDK documentation
 
 ## Author: 
-for any queries reach out at:
-Name: Nimra Amin
-Email: nimra.amin.s@skipq.org
+for any queries reach out at: <br/>
+Name: Nimra Amin <br/>
+Email: nimra.amin.s@skipq.org <br/>
 
 Enjoy!
