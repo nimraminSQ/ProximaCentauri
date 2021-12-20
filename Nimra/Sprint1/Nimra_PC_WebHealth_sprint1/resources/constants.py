@@ -7,6 +7,6 @@ URL_MONITOR_NAME_LATENCY = "url_latency"
 TABLE_NAME = "NimraAlarmTable2"
 
 URLS = {
- "URLS_TO_MONITOR": ["https://www.skipq.org", "https://www.espn.com.au/", "https://www.bbc.com/news", "https://shaukatkhanum.org.pk/"]
+ "URLS_TO_MONITOR": ["https://www.skipq.org", "https://www.google.com.pk/", "https://www.bbc.com/news"]
 }
 

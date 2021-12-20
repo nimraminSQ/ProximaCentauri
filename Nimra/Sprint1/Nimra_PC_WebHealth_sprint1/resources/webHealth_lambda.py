@@ -25,8 +25,6 @@ def lambda_handler(event, context):
         "latency": latency
     })
     
-    
-    
     return values
     
     

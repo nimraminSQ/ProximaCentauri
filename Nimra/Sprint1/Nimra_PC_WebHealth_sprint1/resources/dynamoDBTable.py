@@ -1,15 +1,40 @@
 import boto3
 import os
 
-class dynamoDBTable:
+import constants as constants
+
+class DynamoDBTable:
     def __init__(self):
         self.resource = boto3.resource('dynamodb') 
         
-    def dynamo_data(self, tableName, alarm_name, created_date):
-        table = self.resource.Table(tableName)
-        table_name=os.getenv('table_name')
-        values = {}
-        values['id'] = alarm_name
-        values['createdDate'] = created_date
+    def dynamo_put_data(self, MessageID, Timestamp, Url):
         
-        table.put_item(Item = values)
+        table_name=os.getenv('table_name') # Get the table_name from environment var
+        table = self.resource.Table(table_name) #Get table from dynamodb with name table_name
+        
+        #Inserts data intot the dynamodb table
+        table.put_item(TableName=table_name, 
+        Item={
+        'MessageID': MessageID,
+        'TimeStamp': Timestamp,
+        'url': Url,
+        })
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       

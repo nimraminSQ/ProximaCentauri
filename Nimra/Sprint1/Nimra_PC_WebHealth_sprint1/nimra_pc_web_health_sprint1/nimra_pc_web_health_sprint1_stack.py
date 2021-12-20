@@ -20,6 +20,8 @@ from aws_cdk import core
 import os
 
 from resources import constants as constants
+# from resources import ddb_s3Bucket as s3Bucket
+
 class NimraPcWebHealthSprint1Stack(cdk.Stack):
 
     def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
@@ -28,14 +30,24 @@ class NimraPcWebHealthSprint1Stack(cdk.Stack):
          # Creating a Lambda function, which calls the Hello World Handler
         # HW_lambda = self.create_lambda("Hello World!", "./resources/", "HelloWorld_lambda.lambda_handler")
         lambda_role = self.create_lambda_role()
+        
         # Creating a Lambda function, which creates and calls the WebHealth Lambda Function
         WH_lambda = self.create_lambda("WebHealthPeriodicLambda", "./resources/", "webHealth_lambda.lambda_handler", lambda_role)
+        
+        # Creating a Lambda function, which creates and calls the dynamodb Lambda Function 
         ddb_lambda_producer = self.create_lambda('Nimra_DDB_PRODUCER', './resources/','dynamodb_lambda.lambda_handler' ,lambda_role)
         
-        
+        # Creates a Periodic Schedule for the Web Health Lambda
         lambda_schedule = _events.Schedule.rate(cdk.Duration.minutes(1))
         lambda_targets = _events_targets.LambdaFunction(handler=WH_lambda)
-        rule = _events.Rule(self, "webHealth_Invocation", description="Periodic Lambda", enabled=True, schedule=lambda_schedule, targets=[lambda_targets])
+        
+        
+        rule = _events.Rule(self, 
+                            "webHealth_Invocation", 
+                            description="Periodic Lambda", 
+                            enabled=True, 
+                            schedule=lambda_schedule, 
+                            targets=[lambda_targets])
         
         #SNS TOPIC 
         topic = sns.Topic(self, "Nimra_webHealthAlarm_sprint1")
@@ -45,13 +57,14 @@ class NimraPcWebHealthSprint1Stack(cdk.Stack):
         topic.add_subscription(subscriptions.LambdaSubscription(
                                                 fn=ddb_lambda_producer))
                                                 
-        #  for puclishing aws metrics to cloued watch                      
+        #  for publishing aws metrics to cloued watch                      
         dimensions = {'URL': constants.URL_TO_MONITOR}
         availability_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
                         metric_name=constants.URL_MONITOR_NAME_AVAILABILITY,
                         dimensions_map = dimensions,
                         period = cdk.Duration.minutes(1),
                         label = 'AVAILABILITY ALARM METRIC')
+        
         #Setting up the availability alarm
         availability_alarm = _cloudwatch.Alarm(self, 
                                             id ='NimraAvailabilityAlarm',
@@ -63,47 +76,48 @@ class NimraPcWebHealthSprint1Stack(cdk.Stack):
                                             )
     
     
-    
-        #  for puclishing aws metrics to cloued watch                      
-       
+        #  for publishing aws metrics to cloud watch                      
         dimensions = {'URL': constants.URL_TO_MONITOR}
         latency_metric = _cloudwatch.Metric(namespace = constants.URL_MONITOR_NAMESPACE,
                         metric_name=constants.URL_MONITOR_NAME_LATENCY,
                         dimensions_map = dimensions,
                         period = cdk.Duration.minutes(1),
                         label = 'LATENCY ALARM METRIC')
-         #Setting up the availability alarm
+        
+        #Setting up the availability alarm
         latency_alarm = _cloudwatch.Alarm(self, 
                                             id ='NimraLatencyAlarm',
                                             metric = latency_metric,
                                             comparison_operator =_cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
                                             datapoints_to_alarm = 1,
                                             evaluation_periods = 1,
-                                            threshold = .25 #.34
+                                            threshold = .28 #.34
                                             )
         
+        # Triggers an SNS topic when alarm arises
         availability_alarm.add_alarm_action(cw_actions.SnsAction(topic))
         latency_alarm.add_alarm_action(cw_actions.SnsAction(topic))
 
         #### CREATING A DYNAMODB TABLE
-         #create table in dynamo db
-        try:
+        #Tries creating a table in dynamodb and if it exists else doesn't create it  
+        try: 
             ddb_alarm_table= self.create_ddb_table()
-        except: pass
+        except: 
+            print('Table already exists!, will be inserting new records in the already existing table')
         
         #give read write permissions to our lambda
         ddb_alarm_table.grant_read_write_data(ddb_lambda_producer)
+        
         ###defining SNS service    
         ddb_lambda_producer.add_environment('table_name',constants.TABLE_NAME)
         
-        
+        ############################# TO DO S3 Bucket (start)
+        ### S3 Bucket Code  
         s3bucket= s3.Bucket(self, "Nimra_webHealthsprint1_bucket")
-         #create a queue that will get bucket events
-        queue = sqs.Queue(self, 'Nimra_webheathsprin1_bucket_queue',
-        visibility_timeout=cdk.Duration.seconds(300) )
-        # Now, create an event on bucket that will work with sqs queue
-        # s3bucket.add_event_notification( s3.EventType.OBJECT_CREATED, s3_noti.SqsDestination(queue) )
-    
+        
+        ############################# TO DO (end)
+        
+        
     def create_lambda_role(self):
         lambdaRole = aws_iam.Role(self, "lambda-role",
                         assumed_by = aws_iam.CompositePrincipal(
@@ -138,5 +152,6 @@ class NimraPcWebHealthSprint1Stack(cdk.Stack):
         return ddb.Table(self, 
                         id="Nimra_Table",
                         table_name=constants.TABLE_NAME,
-                        partition_key=ddb.Attribute(name="MessageID", type=ddb.AttributeType.STRING))    
+                        partition_key=ddb.Attribute(name="MessageID",
+                                                    type=ddb.AttributeType.STRING))    
   
