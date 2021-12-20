@@ -26,12 +26,24 @@ AWS events | :heavy_check_mark: Completed
 AWS events target | :heavy_check_mark: Completed
 Boto3 | :heavy_check_mark: Completed
 <br/>
-<br/>
+
 ## Installation Guide
-1. Make Sure you have python3 installed (for this project i have used python3.6 but any python3+ do).
-2. Clone the repository.
-3. cd into the cloned repository.
-4. Install requirements with the command pip install -r requirements.txt or follow the instructions below: 
+1. First Make Sure you have python3 installed (for this project i have used python3.6):
+  - Check Python Version: python --version.
+  - Install Python3 If not already installed: sudo apt-get install python3.6.
+  - Set default python alias: alias python=python3. 
+2. Make sure you are using aws-cli v2
+  - veersion check:  aws --version
+  - Download aws-cli: curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  - Install aws-cli: unzip awscliv2.zip
+3. Clone the Git repository.
+  - git clone "http url"
+4. cd into the cloned repository.
+  - cd ProximaCentauri
+  - mkdir nimra/sprint1/
+  - cdk init --language = python ()
+
+Commands used to set Environment
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 <br/>
