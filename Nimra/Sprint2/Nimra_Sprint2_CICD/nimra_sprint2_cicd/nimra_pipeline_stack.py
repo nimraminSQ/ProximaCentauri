@@ -28,7 +28,7 @@ class NimraPipelineStack(cdk.Stack):
                                             commands=["ls Nimra", "pwd",
                                                       "cd Nimra/Sprint2/Nimra_Sprint2_CICD",
                                                       "alias python=python3" ,
-                                                      "pip install -r requirements_aws.txt",
+                                                      "pip install -r requirements-aws.txt",
                                                     #   "pip install -r requirements.txt -t ./infra/resources/dependencies", # for installing external lambda files
                                                       "npm install -g aws-cdk",
                                                       "cdk synth"],
@@ -37,7 +37,7 @@ class NimraPipelineStack(cdk.Stack):
         pipeline = pipelines.CodePipeline(self, 'NimraPipeline', synth = synth_pipeline)
         
         beta = NimraBetaStage(self,
-                                   "NimraBetaStageCICD")
+                              "NimraBetaStageCICD")
         # The code that defines your stack goes here
 
         # example resource
