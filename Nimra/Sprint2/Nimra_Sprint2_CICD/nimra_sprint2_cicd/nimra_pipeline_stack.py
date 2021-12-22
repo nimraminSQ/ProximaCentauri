@@ -1,7 +1,8 @@
 from aws_cdk import (
     core as cdk,
     pipelines as pipelines,
-    aws_codepipeline_actions as cp_actions
+    aws_codepipeline_actions as cp_actions,
+    aws_iam as aws_iam
     # aws_sqs as sqs,
 )
 
@@ -37,7 +38,11 @@ class NimraPipelineStack(cdk.Stack):
         pipeline = pipelines.CodePipeline(self,
                                           'NimraPipeline',
                                           synth = synth_pipeline,
-                                          self_mutation = True)
+                                          self_mutation = True,
+                                          role_policy_statements=[
+            aws_iam.PolicyStatement(
+                actions=["sts:AssumeRole"],
+                resources=["*"],)])
         
         beta = NimraBetaStage(self,
                               "NimraBetaStageCICD")
