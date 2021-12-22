@@ -1,8 +1,7 @@
 from aws_cdk import (
     core as cdk,
     pipelines as pipelines,
-    aws_codepipeline_actions as cp_actions,
-    aws_iam as aws_iam,
+    aws_codepipeline_actions as cp_actions
     # aws_sqs as sqs,
 )
 
@@ -35,14 +34,11 @@ class NimraPipelineStack(cdk.Stack):
                                                       "cdk synth"],
                                             primary_output_directory = "./Nimra/Sprint2/Nimra_Sprint2_CICD/cdk.out"
     )
-        pipeline = pipelines.CodePipeline(self, 'NimraPipeline',
+        pipeline = pipelines.CodePipeline(self,
+                                          'NimraPipeline',
                                           synth = synth_pipeline,
-                                           role_policy_statements=[ aws_iam.PolicyStatement({ "Action": [ "s3:*"],
-                                                                                              "Effect": "Allow",
-                                                                                              "Resource": "arn:aws:s3:::cdktoolkit-stagingbucket-*"}
-                                                                                            )
-                                                                    ])
-     
+                                          self_mutating = True)
+        
         beta = NimraBetaStage(self,
                               "NimraBetaStageCICD")
         # The code that defines your stack goes here
