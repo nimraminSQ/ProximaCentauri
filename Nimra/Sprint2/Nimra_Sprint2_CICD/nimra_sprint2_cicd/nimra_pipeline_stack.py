@@ -37,7 +37,7 @@ class NimraPipelineStack(cdk.Stack):
         pipeline = pipelines.CodePipeline(self,
                                           'NimraPipeline',
                                           synth = synth_pipeline,
-                                          self_mutating = True)
+                                          self_mutation = True)
         
         beta = NimraBetaStage(self,
                               "NimraBetaStageCICD")
