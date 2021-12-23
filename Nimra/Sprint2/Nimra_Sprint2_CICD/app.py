@@ -15,7 +15,7 @@ from nimra_sprint2_cicd.nimra_pipeline_stack import NimraPipelineStack
 
 app = core.App()
 NimraPipelineStack(app,
-                        "NimraPipelineStack") # now entry point is this pipeline
+                        "NimraCiCdPipelineStack") # now entry point is this pipeline
 # NimraSprint2CicdStack(app, "NimraSprint2CicdStack", #old entry point
     # If you don't specify 'env', this stack will be environment-agnostic.
     # Account/Region-dependent features and context lookups will not work,

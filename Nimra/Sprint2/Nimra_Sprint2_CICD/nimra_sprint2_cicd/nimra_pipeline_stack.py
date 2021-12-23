@@ -13,7 +13,7 @@ from aws_cdk import (
 from aws_cdk import core
 from nimra_sprint2_cicd.nimra_beta_stage import NimraBetaStage
 
-class NimraPipelineStack(cdk.Stack):
+class NimraCiCdPipelineStack(cdk.Stack):
 
     def __init__(self, scope: cdk.Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
@@ -52,13 +52,5 @@ class NimraPipelineStack(cdk.Stack):
                                             'region' : 'us-east-2'
                                             })
 
-        # The code that defines your stack goes here
-
-        # example resource
-        # queue = sqs.Queue(
-        #     self, "NimraSprint2CicdQueue",
-        #     visibility_timeout=cdk.Duration.seconds(300),
-        # )
-        
         # pipeline.add_stage(beta,)
                         #   pre= [unit test])
