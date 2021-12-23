@@ -14,7 +14,7 @@ from nimra_sprint2_cicd.nimra_pipeline_stack import NimraCiCdPipelineStack
 
 
 app = core.App()
-NimraPipelineStack(app,
+NimraCiCdPipelineStack(app,
                         "NimraCiCdPipelineStack") # now entry point is this pipeline
 # NimraSprint2CicdStack(app, "NimraSprint2CicdStack", #old entry point
     # If you don't specify 'env', this stack will be environment-agnostic.
