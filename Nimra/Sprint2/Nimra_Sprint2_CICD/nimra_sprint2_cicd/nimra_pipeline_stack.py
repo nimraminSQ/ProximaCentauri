@@ -39,10 +39,11 @@ class NimraPipelineStack(cdk.Stack):
                                           'NimraPipeline',
                                           synth = synth_pipeline,
                                           self_mutation = True,
-                                          role_policy_statements=[
-            aws_iam.PolicyStatement(
-                actions=["s3:*"],
-                resources=["s3"],)])
+            #                               role_policy_statements=[
+            # aws_iam.PolicyStatement(
+            #     actions=["s3:*"],
+            #     resources=["s3"],)]
+                )
         
         # beta = NimraBetaStage(self,
         #                       "NimraBetaStageCICD")
@@ -59,5 +60,5 @@ class NimraPipelineStack(cdk.Stack):
         #     visibility_timeout=cdk.Duration.seconds(300),
         # )
         
-        pipeline.add_stage(beta,)
+        # pipeline.add_stage(beta,)
                         #   pre= [unit test])
