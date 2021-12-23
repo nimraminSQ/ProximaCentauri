@@ -10,7 +10,7 @@ from aws_cdk import core as cdk
 from aws_cdk import core
 
 # from nimra_sprint2_cicd.nimra_sprint2_cicd_stack import NimraSprint2CicdStack
-from nimra_sprint2_cicd.nimra_pipeline_stack import NimraPipelineStack
+from nimra_sprint2_cicd.nimra_pipeline_stack import NimraCiCdPipelineStack
 
 
 app = core.App()
