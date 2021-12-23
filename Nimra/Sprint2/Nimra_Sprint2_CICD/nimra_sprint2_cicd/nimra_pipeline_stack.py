@@ -44,8 +44,13 @@ class NimraPipelineStack(cdk.Stack):
                 actions=["s3:*"],
                 resources=["s3"],)])
         
-        beta = NimraBetaStage(self,
-                              "NimraBetaStageCICD")
+        # beta = NimraBetaStage(self,
+        #                       "NimraBetaStageCICD")
+        beta = NimraBetaStage(self, "NimraBeta", env = {
+                                            'account':'315997497220',
+                                            'region' : 'us-east-2'
+                                            })
+
         # The code that defines your stack goes here
 
         # example resource
